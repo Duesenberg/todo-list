@@ -1,0 +1,85 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url(./fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url(./fonts/RubikMarkerHatch-Regular.ttf);
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#content {
+  min-height: 100vh;
+  height: auto;
+  background-color: cyan;
+  display: grid;
+  grid-template: 1fr 8fr / 1fr 8fr;
+}
+
+.header {
+  background-color: transparent;
+  grid-area: 1 / 1 / 2 / 3;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header .title {
+  background-color: #e5e5e5;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+}
+
+.header .title .logo {
+  width: 50px;
+  height: 50px;
+  background-image: url(./icons/hedgehog-svgrepo-com.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header .title .text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #525252;
+}
+
+.add-project {
+  border: none;
+  background-color: #e5e5e5;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+}
+
+.add-project .text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #525252;
+}
+
+.add-project .icon {
+  width: 45px;
+  height: 45px;
+  background-image: url(./icons/plus-svgrepo-com.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: contrast(0.4);
+}
