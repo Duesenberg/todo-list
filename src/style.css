@@ -21,7 +21,9 @@ body {
 #content {
   min-height: 100vh;
   height: auto;
-  background-color: cyan;
+  background-image: url(./icons/pexels-engin-akyurt-1493226.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   display: grid;
   grid-template: 1fr 8fr / 1fr 8fr;
 }
@@ -34,14 +36,16 @@ body {
   justify-content: space-between;
 }
 
-.header .title {
-  background-color: #e5e5e5;
+.header .title, .header .add-project {
+  border: none;
+  background-color: #fafafa;
   border-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 15px 30px;
+  box-shadow: 0px 6px 10px -3px rgba(0,0,0,0.5);
 }
 
 .header .title .logo {
@@ -58,15 +62,12 @@ body {
   color: #525252;
 }
 
-.add-project {
-  border: none;
+.add-project:hover {
   background-color: #e5e5e5;
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 15px 30px;
+}
+
+.add-project:active {
+  background-color: #d4d4d4;
 }
 
 .add-project .text {
