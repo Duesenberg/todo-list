@@ -18,6 +18,7 @@ body {
   padding: 0;
 }
 
+/* HEADER */
 #content {
   min-height: 100vh;
   height: auto;
@@ -45,7 +46,7 @@ body {
   align-items: center;
   gap: 20px;
   padding: 15px 30px;
-  box-shadow: 0px 6px 10px -3px rgba(0,0,0,0.5);
+  box-shadow: 0px 6px 10px -3px rgba(0,0,0);
 }
 
 .header .title .logo {
@@ -63,11 +64,11 @@ body {
 }
 
 .add-project:hover {
-  background-color: #e5e5e5;
+  background-color: #aeffa1;
 }
 
 .add-project:active {
-  background-color: #d4d4d4;
+  background-color: #63ff4b;
 }
 
 .add-project .text {
@@ -87,12 +88,14 @@ body {
 
 /* javascript generated content from here */
 
+
+/* SIDEBAR */
 .sidebar {
   grid-area: 2 / 1 / 3 / 2;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 
 .sidebar-item {
@@ -103,7 +106,12 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  box-shadow: 0px 6px 10px -3px rgba(0,0,0,0.5);
+  box-shadow: 0px 6px 10px -3px rgba(0,0,0);
+}
+
+.sidebar-item:hover {
+  scale: 1.025;
+  transition: 200ms;
 }
 
 .sidebar-item .title {
@@ -113,10 +121,22 @@ body {
 }
 
 .sidebar-item button {
+  background-color: transparent;
+  border: none;
   height: 40px;
   width: 40px;
-  background-image: url(./icons/dust-bin-svgrepo-com.svg);
+  background-image: url(./icons/close-circle-outline.svg);
   background-position: center;
   background-repeat: no-repeat;
   filter: contrast(0.4);
 }
+
+.sidebar-item button:hover {
+  filter: invert(51%) sepia(79%) saturate(1081%) hue-rotate(319deg) brightness(109%) contrast(123%);
+}
+
+.sidebar-item button:active {
+  filter: invert(22%) sepia(96%) saturate(6883%) hue-rotate(2deg) brightness(92%) contrast(122%);
+}
+
+/* MAIN */

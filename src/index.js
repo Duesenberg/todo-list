@@ -14,16 +14,24 @@ const toDoList = [
   },
 ]
 
+//create sidevar div where projects will be listed
 const sideBar = () => {
   const content = document.querySelector('#content');
   const sideBarContainer = document.createElement('div');
   sideBarContainer.classList.add('sidebar');
-  console.log(content);
-  console.log(sideBarContainer);
   content.appendChild(sideBarContainer);
   sideBarContent();
 }
 
+//create main div where project details will be shown
+const mainArea = () => {
+  const content = document.querySelector('#content');
+  const mainAreaContainer = document.createElement('div');
+  mainAreaContainer.classList.add('main');
+  content.appendChild(mainAreaContainer);
+}
+
+//generate list of projects on sidebar (can import this one?)
 const sideBarContent = () => {
   const sideBar = document.querySelector('.sidebar');
   for (let i = 0; i < toDoList.length; i++) {
@@ -43,4 +51,27 @@ const sideBarContent = () => {
   }
 }
 
+//generate project details (takes data-index as input, need to couple this with an event listener)
+const mainAreaContent = (dataIndex) => {
+  const mainContainer = document.querySelector('.main');
+  const projectContainer = document.createElement('div');
+  projectContainer.classList.add('project-container');
+  mainContainer.appendChild(projectContainer);
+
+  const projectTitle = document.createElement('h1');
+  projectTitle.classList.add('title');
+  projectTitle.textContent = toDoList[dataIndex].title;
+  projectContainer.appendChild(projectTitle);
+
+  const projectDescription = document.createElement('p');
+  projectDescription.classList.add('text');
+  projectDescription.textContent = toDoList[dataIndex].description;
+  projectContainer.appendChild(projectDescription);
+
+  /* NEED TO FINISH THIS */
+}
+
+
+
 sideBar();
+mainArea();
