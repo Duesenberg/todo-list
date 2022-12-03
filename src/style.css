@@ -119,6 +119,16 @@ body {
   font-size: 1.5rem;
   font-weight: 500;
   color: #525252;
+  flex: 1;
+}
+
+.sidebar-item .title:hover {
+  color: #63ff4b;
+  transition: 200ms;
+}
+
+.sidebar-item .title:active {
+  color: #525252;
 }
 
 .sidebar-item button {

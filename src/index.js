@@ -1,6 +1,7 @@
 //need to:
 //add functionality for the color of the sidebar borders depending on project priority
 //add checkboxes for the list items in the project checklist
+//add functionality to remove projects
 
 import './style.css';
 
@@ -32,12 +33,16 @@ const sideBar = () => {
   sideBarContent();
 }
 
-//create main div where project details will be shown
+//create main divs where project details will be shown
 const mainArea = () => {
   const content = document.querySelector('#content');
   const mainAreaContainer = document.createElement('div');
   mainAreaContainer.classList.add('main');
   content.appendChild(mainAreaContainer);
+
+  const projectContainer = document.createElement('div');
+  projectContainer.classList.add('project-container');
+  mainAreaContainer.appendChild(projectContainer);
 }
 
 //generate list of projects on sidebar (can import this one?)
@@ -52,8 +57,14 @@ const sideBarContent = () => {
     const itemTitle = document.createElement('div');
     itemTitle.classList.add('title');
     itemTitle.textContent = toDoList[i].title;
+    itemTitle.setAttribute('data-index', i);
     sideBarItem.appendChild(itemTitle);
+    itemTitle.addEventListener('click', () => {
+      let dataIndex = itemTitle.getAttribute('data-index');
+      generateMainContent(dataIndex);
+    })
 
+    //maybe I should remove this element from sidebar, put it in main instead
     const removeItem = document.createElement('button');
     removeItem.setAttribute('data-index', i);
     sideBarItem.appendChild(removeItem);
@@ -61,13 +72,10 @@ const sideBarContent = () => {
 }
 
 //generate project details (takes data-index as input, need to couple this with an event listener)
-//might be a good idea to call a method for generating the elements here?
+//might be a good idea to call a function for generating the elements here?
 const mainAreaContent = (dataIndex) => {
   //main container
-  const mainContainer = document.querySelector('.main');
-  const projectContainer = document.createElement('div');
-  projectContainer.classList.add('project-container');
-  mainContainer.appendChild(projectContainer);
+  const projectContainer = document.querySelector('.project-container');
 
   //title
   const projectTitle = document.createElement('h1');
@@ -114,19 +122,36 @@ const mainAreaContent = (dataIndex) => {
     unorderedList.appendChild(listItem);
   }
 
-  /* NEED TO FINISH THIS */
+  //close project
+  const closeProject = document.createElement('button');
+  closeProject.classList.add('close');
+  closeProject.textContent = "close";
+  projectContainer.appendChild(closeProject);
+  closeProject.addEventListener('click', () => {
+    removeAllChildNodes(projectContainer);    
+  })
+
+  //remove project -NEED TO FINISH
+  const removeProject = document.createElement('button');
+  removeProject.classList.add('remove');
+  removeProject.textContent = 'remove';
+  projectContainer.appendChild(removeProject);
 }
 
 /* clear the screen of the displayed project, and display the one that 
-  was selected NEED TO COUPLE THIS WITH AN EVENT LISTENER*/
-  const generateMainContent = (dataIndex) => {
-    const mainContainer = document.querySelector('project-container');
-    mainContainer.remove();
+  was selected*/
+const generateMainContent = (dataIndex) => {
+  const mainContainer = document.querySelector('.project-container');
+  removeAllChildNodes(mainContainer);  
+  mainAreaContent(dataIndex);
+}
 
-    mainAreaContent(dataIndex);
+//clear an element of all child nodes
+const removeAllChildNodes = (parent) => {
+  while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
   }
-
-
+}
 
 sideBar();
 mainArea();
