@@ -115,6 +115,10 @@ body {
   transition: 200ms;
 }
 
+.sidebar-item:active {
+  scale: 1;
+}
+
 .sidebar-item .title {
   font-size: 1.5rem;
   font-weight: 500;
@@ -122,37 +126,63 @@ body {
   flex: 1;
 }
 
-.sidebar-item .title:hover {
-  color: #63ff4b;
-  transition: 200ms;
+/* MAIN */
+
+.main {
+  background-color: transparent;
+  grid-area: 2 / 2 / 3 / 3;
+  padding: 10px;
 }
 
-.sidebar-item .title:active {
+.project-container {
+  display: grid;
+  grid-template: 1fr 6fr 1fr / 1fr 1fr;
+  background-color: #fafafa;
+  border-radius: 50px;
+  box-shadow: 0px 6px 10px -3px rgba(0,0,0);
+}
+
+.title-container {
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  padding: 40px 40px 10px 10px;
+  align-items: center;
+}
+
+.title-container .title {
   color: #525252;
+  font-size: 1.7rem;
+  flex: 1;
 }
 
-.sidebar-item button {
+.title-container .close {
   background-color: transparent;
   border: none;
-  height: 40px;
-  width: 40px;
+  width: 50px;
+  height: 50px;
   background-image: url(./icons/close-circle-outline.svg);
   background-position: center;
   background-repeat: no-repeat;
   filter: contrast(0.4);
 }
 
-.sidebar-item button:hover {
-  filter: invert(51%) sepia(79%) saturate(1081%) hue-rotate(319deg) brightness(109%) contrast(123%);
+.title-container .close:hover {
+  filter: invert(16%) sepia(98%) saturate(7485%) hue-rotate(360deg) brightness(113%) contrast(107%);
+  transition: 200ms;
 }
 
-.sidebar-item button:active {
-  filter: invert(22%) sepia(96%) saturate(6883%) hue-rotate(2deg) brightness(92%) contrast(122%);
+.checklist {
+  grid-area: 1 / 1 / 4 / 2;
+  padding: 40px 10px 40px 40px;
 }
 
-/* MAIN */
-
-.main {
-  background-color: blue;
+.project-container .text {
   grid-area: 2 / 2 / 3 / 3;
+  padding: 10px 40px 10px 10px;
+}
+
+.info {
+  grid-area: 3 / 2 / 4 / 3;
+  display: flex;
+  padding: 10px 40px 40px 10px;
 }

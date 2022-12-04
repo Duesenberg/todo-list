@@ -53,21 +53,16 @@ const sideBarContent = () => {
     sideBarItem.classList.add('sidebar-item');
     sideBarItem.setAttribute('data-index', i);
     sideBar.appendChild(sideBarItem);
+    sideBarItem.addEventListener('click', () => {
+      let dataIndex = sideBarItem.getAttribute('data-index');
+      generateMainContent(dataIndex);
+    })
     
     const itemTitle = document.createElement('div');
     itemTitle.classList.add('title');
     itemTitle.textContent = toDoList[i].title;
     itemTitle.setAttribute('data-index', i);
     sideBarItem.appendChild(itemTitle);
-    itemTitle.addEventListener('click', () => {
-      let dataIndex = itemTitle.getAttribute('data-index');
-      generateMainContent(dataIndex);
-    })
-
-    //maybe I should remove this element from sidebar, put it in main instead
-    const removeItem = document.createElement('button');
-    removeItem.setAttribute('data-index', i);
-    sideBarItem.appendChild(removeItem);
   }
 }
 
@@ -77,11 +72,24 @@ const mainAreaContent = (dataIndex) => {
   //main container
   const projectContainer = document.querySelector('.project-container');
 
-  //title
-  const projectTitle = document.createElement('h1');
-  projectTitle.classList.add('title');
-  projectTitle.textContent = toDoList[dataIndex].title;
-  projectContainer.appendChild(projectTitle);
+  //title container
+  const titleContainer = document.createElement('div');
+  titleContainer.classList.add('title-container');
+  projectContainer.appendChild(titleContainer);
+
+    //title
+    const projectTitle = document.createElement('h1');
+    projectTitle.classList.add('title');
+    projectTitle.textContent = toDoList[dataIndex].title;
+    titleContainer.appendChild(projectTitle);
+
+    //close project
+    const closeProject = document.createElement('button');
+    closeProject.classList.add('close');
+    titleContainer.appendChild(closeProject);
+    closeProject.addEventListener('click', () => {
+      removeAllChildNodes(projectContainer);    
+    })
 
   //description
   const projectDescription = document.createElement('p');
@@ -89,17 +97,31 @@ const mainAreaContent = (dataIndex) => {
   projectDescription.textContent = toDoList[dataIndex].description;
   projectContainer.appendChild(projectDescription);
 
-  //due date
-  const dueDate = document.createElement('div');
-  dueDate.classList.add('due-date');
-  dueDate.textContent = toDoList[dataIndex].dueDate;
-  projectContainer.appendChild(dueDate);
+  //due date, priority & delete
+  const info = document.createElement('div');
+  info.classList.add('info');
+  projectContainer.appendChild(info);
+  
+    //due date
+    const dueDate = document.createElement('div');
+    dueDate.classList.add('due-date');
+    dueDate.textContent = toDoList[dataIndex].dueDate;
+    info.appendChild(dueDate);
 
-  //priority
-  const priority = document.createElement('div');
-  priority.classList.add('priority');
-  priority.textContent = toDoList[dataIndex].priority;
-  projectContainer.appendChild(priority);
+    //priority
+    const priority = document.createElement('div');
+    priority.classList.add('priority');
+    priority.textContent = toDoList[dataIndex].priority;
+    info.appendChild(priority);
+
+    //remove project
+    const removeProject = document.createElement('button');
+    removeProject.classList.add('remove');
+    removeProject.textContent = 'remove';
+    info.appendChild(removeProject);
+    removeProject.addEventListener('click', () => {
+      projectRemove(projectContainer, dataIndex);
+    })
 
   //checklist
   const checkList = document.createElement('div');
@@ -121,21 +143,6 @@ const mainAreaContent = (dataIndex) => {
     listItem.textContent = toDoList[dataIndex].checkList[i];
     unorderedList.appendChild(listItem);
   }
-
-  //close project
-  const closeProject = document.createElement('button');
-  closeProject.classList.add('close');
-  closeProject.textContent = "close";
-  projectContainer.appendChild(closeProject);
-  closeProject.addEventListener('click', () => {
-    removeAllChildNodes(projectContainer);    
-  })
-
-  //remove project -NEED TO FINISH
-  const removeProject = document.createElement('button');
-  removeProject.classList.add('remove');
-  removeProject.textContent = 'remove';
-  projectContainer.appendChild(removeProject);
 }
 
 /* clear the screen of the displayed project, and display the one that 
@@ -151,6 +158,16 @@ const removeAllChildNodes = (parent) => {
   while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
   }
+}
+
+//remove a project
+const projectRemove = (mainWindow, dataIndex) => {
+  removeAllChildNodes(mainWindow);
+  toDoList.splice(dataIndex, 1);
+  //reload sidebar
+  const sideBar = document.querySelector('.sidebar');
+  removeAllChildNodes(sideBar);
+  sideBarContent();
 }
 
 sideBar();
