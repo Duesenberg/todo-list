@@ -100,7 +100,6 @@ body {
 }
 
 .sidebar-item {
-  border-left: 5px solid red;
   background-color: #fafafa;
   border-radius: 20px;
   display: flex;
@@ -150,8 +149,10 @@ body {
 }
 
 .title-container .title {
+  margin: 0;
   color: #525252;
-  font-size: 1.7rem;
+  font-size: 2rem;
+  font-weight: 700;
   flex: 1;
 }
 
@@ -167,7 +168,7 @@ body {
 }
 
 .title-container .close:hover {
-  filter: invert(16%) sepia(98%) saturate(7485%) hue-rotate(360deg) brightness(113%) contrast(107%);
+  filter: invert(86%) sepia(66%) saturate(767%) hue-rotate(355deg) brightness(108%) contrast(103%);  
   transition: 200ms;
 }
 
@@ -176,13 +177,68 @@ body {
   padding: 40px 10px 40px 40px;
 }
 
+.checklist .add-item {
+  color: #525252;
+  background-color: #fafafa;
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  border: 3px solid #525252;
+  border-radius: 30px;
+}
+
+.checklist .add-item:hover {
+  background-color: #63ff4b;
+}
+
+.checklist .add-item:active {
+  background-color: #fafafa;
+}
+
+.checklist .all-items {
+  margin: 25px 0px;
+}
+
+.checklist .list-item {
+  font-size: 1.3rem;
+  color: #525252;
+}
+
 .project-container .text {
+  margin: 25px 0;
   grid-area: 2 / 2 / 3 / 3;
   padding: 10px 40px 10px 10px;
+  color: #525252;
+  font-size: 1.3rem;
 }
 
 .info {
   grid-area: 3 / 2 / 4 / 3;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   padding: 10px 40px 40px 10px;
+  align-items: center;
+}
+
+.info .due-date,
+.info .priority,
+.info .remove {
+  text-align: center;
+  flex: 1;
+  color: #525252;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.info .remove {
+  background-image: url(./icons/trash-can-outline.svg);
+  background-color: transparent;
+  border: none;
+  height: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: contrast(0.4);
+}
+
+.info .remove:hover {
+  filter: invert(16%) sepia(98%) saturate(7485%) hue-rotate(360deg) brightness(113%) contrast(107%);
 }

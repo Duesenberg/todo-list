@@ -1,7 +1,6 @@
 //need to:
-//add functionality for the color of the sidebar borders depending on project priority
 //add checkboxes for the list items in the project checklist
-//add functionality to remove projects
+//add functionalith to change priority of project via project window
 
 import './style.css';
 
@@ -52,6 +51,7 @@ const sideBarContent = () => {
     const sideBarItem = document.createElement('div');
     sideBarItem.classList.add('sidebar-item');
     sideBarItem.setAttribute('data-index', i);
+    sidebarPriorityIndicator(sideBarItem);
     sideBar.appendChild(sideBarItem);
     sideBarItem.addEventListener('click', () => {
       let dataIndex = sideBarItem.getAttribute('data-index');
@@ -112,12 +112,12 @@ const mainAreaContent = (dataIndex) => {
     const priority = document.createElement('div');
     priority.classList.add('priority');
     priority.textContent = toDoList[dataIndex].priority;
+    mainAreaPriorityIndicator(priority);
     info.appendChild(priority);
 
     //remove project
     const removeProject = document.createElement('button');
     removeProject.classList.add('remove');
-    removeProject.textContent = 'remove';
     info.appendChild(removeProject);
     removeProject.addEventListener('click', () => {
       projectRemove(projectContainer, dataIndex);
@@ -168,6 +168,37 @@ const projectRemove = (mainWindow, dataIndex) => {
   const sideBar = document.querySelector('.sidebar');
   removeAllChildNodes(sideBar);
   sideBarContent();
+}
+
+//set indicator of priority on sidebar (green,yellow or red left border)
+const sidebarPriorityIndicator = (item) => {
+  let dataIndex = item.getAttribute('data-index');
+  switch (toDoList[dataIndex].priority) {
+    case 'Low':
+      item.style.borderLeft = '5px solid green';
+      break;
+    case 'Medium':
+      item.style.borderLeft = '5px solid yellow';
+      break;
+    case 'High':
+      item.style.borderLeft = '5px solid red';
+      break;
+  }
+}
+
+//set color of priority indicator on project window
+const mainAreaPriorityIndicator = (item) => {
+  switch (item.textContent) {
+    case 'Low':
+      item.style.color = "green";
+      break;
+    case 'Medium':
+      item.style.color = "yellow";
+      break;
+    case 'High':
+      item.style.color = "red";
+      break;
+  }
 }
 
 sideBar();
