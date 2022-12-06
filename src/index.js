@@ -111,8 +111,14 @@ const mainAreaContent = (dataIndex) => {
     //priority
     const priority = document.createElement('div');
     priority.classList.add('priority');
+    priority.setAttribute('data-index', dataIndex)
     priority.textContent = toDoList[dataIndex].priority;
     mainAreaPriorityIndicator(priority);
+    priority.addEventListener('click', () => {
+      changePriority(priority);
+      generateMainContent(dataIndex);
+      generateSidebarContent();
+    })
     info.appendChild(priority);
 
     //remove project
@@ -151,6 +157,13 @@ const generateMainContent = (dataIndex) => {
   const mainContainer = document.querySelector('.project-container');
   removeAllChildNodes(mainContainer);  
   mainAreaContent(dataIndex);
+}
+
+//refresh the sidebar
+const generateSidebarContent = () => {
+  const mainContainer = document.querySelector('.sidebar');
+  removeAllChildNodes(mainContainer);
+  sideBarContent();  
 }
 
 //clear an element of all child nodes
@@ -199,6 +212,17 @@ const mainAreaPriorityIndicator = (item) => {
       item.style.color = "red";
       break;
   }
+}
+
+//change the priority of the project
+const changePriority = (item) => {
+  let dataIndex = item.getAttribute('data-index');
+  console.log(toDoList[dataIndex]);
+  if (toDoList[dataIndex].priority === 'Low') toDoList[dataIndex].priority = 'Medium';
+  else if (toDoList[dataIndex].priority === 'Medium') toDoList[dataIndex].priority = 'High';
+  else toDoList[dataIndex].priority = 'Low';
+  
+  item.textContent = toDoList[dataIndex].priority;
 }
 
 sideBar();
