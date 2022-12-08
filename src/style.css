@@ -319,3 +319,11 @@ body {
   left: 0;
   top: 0;
 }
+
+/* duedate form popup */
+
+.duedate-form {
+  position: fixed;
+  left: 0;
+  top: 0;
+}

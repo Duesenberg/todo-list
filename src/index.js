@@ -132,6 +132,10 @@ const mainAreaContent = (dataIndex) => {
     dueDate2.classList.add('due-date2');
     dueDate2.textContent = toDoList[dataIndex].dueDate;
     info.appendChild(dueDate2);
+    dueDate2.addEventListener('click', () => {
+      removeForms();
+      bringUpDatePopup(dataIndex);
+    })
 
     //priority
     const priority1 = document.createElement('div');
@@ -168,6 +172,7 @@ const mainAreaContent = (dataIndex) => {
   addItem.textContent = "Add item to Checklist";
   checkList.appendChild(addItem);
   addItem.addEventListener('click', () => {
+    removeForms();
     bringUpChecklistPopUp(toDoList[dataIndex].checkList, dataIndex);
   })
 
@@ -365,6 +370,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
   })
 }
 
+//bring up popup for adding a project
 const bringUpProjectPopup = () => {
   const projectContainer = document.querySelector('.project-container');
   const form = document.createElement('form');
@@ -490,6 +496,61 @@ const bringUpProjectPopup = () => {
 
 }
 
+//bring up popup for changing date
+const bringUpDatePopup = (dataIndex) => {
+  const projectContainer = document.querySelector('.project-container');
+  const form = document.createElement('form');
+  const legend = document.createElement('legend');
+  const dueDateContainer = document.createElement('div');
+  const dueDateText = document.createElement('input');
+  const dueDateLabel = document.createElement('label');
+  const submitButton = document.createElement('button');
+  const cancelButton = document.createElement('button');
+
+  form.classList.add('duedate-form');
+  form.setAttribute('action', '');
+  form.setAttribute('method', '');
+  projectContainer.appendChild(form);
+
+  legend.classList.add('legend');
+  legend.textContent = 'Change due date:';
+  form.appendChild(legend);
+
+  //due date
+  dueDateContainer.classList.add('duedate-container');
+  form.appendChild(dueDateContainer);
+
+    dueDateLabel.setAttribute('for', 'date');
+    dueDateLabel.textContent = "Due date:"
+    dueDateContainer.appendChild(dueDateLabel);
+
+    dueDateText.setAttribute('type', 'date');
+    dueDateText.setAttribute('name', 'date');
+    dueDateText.setAttribute('id', 'date');
+    dueDateText.setAttribute('title', 'Enter due date');
+    dueDateText.setAttribute('required', '');
+    dueDateContainer.appendChild(dueDateText);
+
+  //submit
+  submitButton.classList.add('submit-duedate');
+  submitButton.textContent = "Submit";
+  form.appendChild(submitButton);
+  submitButton.addEventListener('click', () => {
+    toDoList[dataIndex].dueDate = format(parseISO(dueDateText.value), 'MMM dd, yyyy');    ;
+    generateMainContent(dataIndex);
+    form.remove();
+  })
+
+  //cancel
+  cancelButton.classList.add('cancel-duedate');
+  cancelButton.textContent = "Cancel";
+  form.appendChild(cancelButton);
+  cancelButton.addEventListener('click', () => {
+    form.remove();
+  })
+
+}
+
 //factory for creating checklist item
 const checkListItemFactory = (task, done) => {
   let checked;
@@ -504,10 +565,21 @@ const projectFactory = (title, description, dueDate, priority) => {
   return {title, description, checkList, dueDate, priority};
 }
 
+//remove forms if present
+const removeForms = () => {
+  const projectForm = document.querySelector('.project-form');
+  const checklistForm = document.querySelector('.checklist-form');
+  const dueDateForm = document.querySelector('.duedate-form');
+  if (projectForm != null) projectForm.remove();
+  if (checklistForm != null) checklistForm.remove();
+  if (dueDateForm != null) dueDateForm.remove();
+}
+
 sideBar();
 mainArea();
 //event listener for add project button
 const addProject = document.querySelector('.add-project');
 addProject.addEventListener('click', () => {
+  removeForms();
   bringUpProjectPopup();
 })
