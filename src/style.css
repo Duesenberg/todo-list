@@ -303,3 +303,11 @@ body {
 .info .remove:hover {
   filter: invert(16%) sepia(98%) saturate(7485%) hue-rotate(360deg) brightness(113%) contrast(107%);
 }
+
+/* task form popup */
+
+.checklist-form {
+  position: fixed;
+  left: 0;
+  top: 0;
+}

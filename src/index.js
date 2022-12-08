@@ -167,6 +167,9 @@ const mainAreaContent = (dataIndex) => {
   addItem.classList.add('add-item');
   addItem.textContent = "Add item to Checklist";
   checkList.appendChild(addItem);
+  addItem.addEventListener('click', () => {
+    bringUpChecklistPopUp(toDoList[dataIndex].checkList, dataIndex);
+  })
 
   //need to add checkboxes for each item here
   const unorderedList = document.createElement('ul');
@@ -200,8 +203,8 @@ const mainAreaContent = (dataIndex) => {
   }
 }
 
-/* clear the screen of the displayed project, and display the one that 
-  was selected*/
+/* clear the window of the displayed project, and display the one that 
+  was selected. Or, can be used to refresh main window if cnages were made*/
 const generateMainContent = (dataIndex) => {
   const mainContainer = document.querySelector('.project-container');
   removeAllChildNodes(mainContainer);  
@@ -286,6 +289,82 @@ const makeChecked = (item, dataIndex) => {
   toDoList[dataIndex].checkList[itemIndex].checked === false ?
   toDoList[dataIndex].checkList[itemIndex].checked = true :
   toDoList[dataIndex].checkList[itemIndex].checked = false;
+}
+
+//bring up pop up form for adding a checklist item
+const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
+  const projectContainer = document.querySelector('.project-container');
+  const form = document.createElement('form');
+  const legend = document.createElement('legend');
+  const taskContainer = document.createElement('div');
+  const checkListItemText = document.createElement('input');
+  const itemTextLabel = document.createElement('label');
+  const checkBoxContainer = document.createElement('div');
+  const checkBox = document.createElement('input');
+  const checkBoxLabel = document.createElement('label');
+  const submitButton = document.createElement('button');
+  const cancelButton = document.createElement('button');
+
+  form.classList.add('checklist-form');
+  form.setAttribute('action', '');
+  form.setAttribute('method', '');
+  projectContainer.appendChild(form);
+
+  legend.classList.add('legend');
+  legend.textContent = 'Add Task:';
+  form.appendChild(legend);
+
+  taskContainer.classList.add('task-container');
+  form.appendChild(taskContainer);
+
+    itemTextLabel.setAttribute('for', 'task');
+    itemTextLabel.textContent = "Task:"
+    taskContainer.appendChild(itemTextLabel);
+
+    checkListItemText.setAttribute('type', 'text');
+    checkListItemText.setAttribute('name', 'task');
+    checkListItemText.setAttribute('id', 'task');
+    checkListItemText.setAttribute('title', 'Enter task description here');
+    checkListItemText.setAttribute('required', '');
+    taskContainer.appendChild(checkListItemText);
+
+  checkBoxContainer.classList.add('checkbox-container');
+  form.appendChild(checkBoxContainer);
+
+    checkBoxLabel.setAttribute('for', 'done');
+    checkBoxLabel.textContent = "Done:"
+    checkBoxContainer.appendChild(checkBoxLabel);
+
+    checkBox.setAttribute('type', 'checkbox');
+    checkBox.setAttribute('name', 'done');
+    checkBox.setAttribute('id', 'done');
+    checkBox.setAttribute('title', 'Is this task finished?');
+    checkBox.setAttribute('required', '');
+    checkBoxContainer.appendChild(checkBox);
+
+  submitButton.classList.add('submit-task');
+  submitButton.textContent = "Submit";
+  form.appendChild(submitButton);
+  submitButton.addEventListener('click', () => {
+    const checkListItem = checkListItemFactory(checkListItemText.value, checkBox);
+    dataLocation.push(checkListItem);
+    generateMainContent(dataIndex);
+    form.remove();
+  })
+
+  cancelButton.classList.add('cancel-task');
+  cancelButton.textContent = "Cancel";
+  form.appendChild(cancelButton);
+  cancelButton.addEventListener('click', () => {
+    form.remove();
+  })
+}
+
+//factory for creating checklist item
+const checkListItemFactory = (task, done) => {
+  let checked;
+  (done) ? checked = true : checked = false;
+  return {task, checked};
 }
 
 sideBar();
