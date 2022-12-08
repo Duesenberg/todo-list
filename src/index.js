@@ -8,15 +8,36 @@ const toDoList = [
   {
     title: "To-Do List",
     description: "Create a functioning To-Do List app that works in the browser. Better get busy.",
-    checkList: ["Create basic page setup", "Define page style and structure",
-  ""],
+    checkList: [
+      {
+        task: "Create basic page setup",
+        checked: true,
+      },
+      {
+        task: "Define page style and structure",
+        checked: false,
+      }
+    ],
     dueDate: "12/10/2022",
     priority: "High",
   },
   {
     title: "Work Out",
     description: "Go to the gym and work out.",
-    checkList: ["Go to gym", "Work out", "Go back"],
+    checkList: [
+      {
+        task: "Go to gym",
+        checked: false,
+      },
+      {
+        task: "Work out",
+        checked: false,
+      },
+      {
+        task: "Go back",
+        checked: false,
+      },
+    ],
     dueDate: "12/03/2022",
     priority: "Medium",
   },
@@ -103,23 +124,31 @@ const mainAreaContent = (dataIndex) => {
   projectContainer.appendChild(info);
   
     //due date
-    const dueDate = document.createElement('div');
-    dueDate.classList.add('due-date');
-    dueDate.textContent = toDoList[dataIndex].dueDate;
-    info.appendChild(dueDate);
+    const dueDate1 = document.createElement('div');
+    dueDate1.classList.add('due-date1');
+    dueDate1.textContent = 'Due Date:';
+    info.appendChild(dueDate1);
+    const dueDate2 = document.createElement('div');
+    dueDate2.classList.add('due-date2');
+    dueDate2.textContent = toDoList[dataIndex].dueDate;
+    info.appendChild(dueDate2);
 
     //priority
-    const priority = document.createElement('div');
-    priority.classList.add('priority');
-    priority.setAttribute('data-index', dataIndex)
-    priority.textContent = toDoList[dataIndex].priority;
-    mainAreaPriorityIndicator(priority);
-    priority.addEventListener('click', () => {
-      changePriority(priority);
+    const priority1 = document.createElement('div');
+    priority1.classList.add('priority1');
+    priority1.textContent = "Priority:"
+    info.appendChild(priority1);
+    const priority2 = document.createElement('div');
+    priority2.classList.add('priority2');
+    priority2.setAttribute('data-index', dataIndex)
+    priority2.textContent = toDoList[dataIndex].priority;
+    mainAreaPriorityIndicator(priority2);
+    priority2.addEventListener('click', () => {
+      changePriority(priority2);
       generateMainContent(dataIndex);
       generateSidebarContent();
     })
-    info.appendChild(priority);
+    info.appendChild(priority2);
 
     //remove project
     const removeProject = document.createElement('button');
@@ -144,10 +173,30 @@ const mainAreaContent = (dataIndex) => {
   unorderedList.classList.add('all-items')
   checkList.appendChild(unorderedList);
   for (let i = 0; i < toDoList[dataIndex].checkList.length; i++) {
-    const listItem = document.createElement('li');
+    const listItem = document.createElement('div');
     listItem.classList.add('list-item');
-    listItem.textContent = toDoList[dataIndex].checkList[i];
+    listItem.setAttribute('data-itemindex', i);
     unorderedList.appendChild(listItem);
+  
+    const listItemText = document.createElement('button');
+    listItemText.classList.add('text');
+    if (toDoList[dataIndex].checkList[i].checked == true) {
+      listItemText.classList.add('checked');
+    }
+    listItemText.textContent = toDoList[dataIndex].checkList[i].task;
+    listItem.appendChild(listItemText);
+    listItemText.addEventListener('click', () => {
+      makeChecked(listItem, dataIndex);
+      generateMainContent(dataIndex);
+    })
+
+    const removeButton = document.createElement('button');
+    removeButton.classList.add('remove-item');
+    removeButton.addEventListener('click', () => {
+      removeChecklistItem(listItem, dataIndex);
+      generateMainContent(dataIndex);
+    })
+    listItem.appendChild(removeButton);
   }
 }
 
@@ -217,12 +266,26 @@ const mainAreaPriorityIndicator = (item) => {
 //change the priority of the project
 const changePriority = (item) => {
   let dataIndex = item.getAttribute('data-index');
-  console.log(toDoList[dataIndex]);
   if (toDoList[dataIndex].priority === 'Low') toDoList[dataIndex].priority = 'Medium';
   else if (toDoList[dataIndex].priority === 'Medium') toDoList[dataIndex].priority = 'High';
   else toDoList[dataIndex].priority = 'Low';
   
   item.textContent = toDoList[dataIndex].priority;
+}
+
+//remove item from checklist
+const removeChecklistItem = (item, dataIndex) => {
+  let itemIndex = item.getAttribute('data-itemindex');
+  toDoList[dataIndex].checkList.splice(itemIndex, 1);
+  item.remove();
+}
+
+//change status of checklist item to checked/unchecked
+const makeChecked = (item, dataIndex) => {
+  let itemIndex = item.getAttribute('data-itemindex');
+  toDoList[dataIndex].checkList[itemIndex].checked === false ?
+  toDoList[dataIndex].checkList[itemIndex].checked = true :
+  toDoList[dataIndex].checkList[itemIndex].checked = false;
 }
 
 sideBar();
