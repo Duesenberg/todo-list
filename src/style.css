@@ -311,3 +311,11 @@ body {
   left: 0;
   top: 0;
 }
+
+/* project form popup */
+
+.project-form {
+  position: fixed;
+  left: 0;
+  top: 0;
+}

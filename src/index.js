@@ -1,8 +1,8 @@
 //need to:
-//add checkboxes for the list items in the project checklist
-//add functionalith to change priority of project via project window
+//prevent multiple forms from stacking
 
 import './style.css';
+import {format, parseISO} from 'date-fns';
 
 const toDoList = [
   {
@@ -305,6 +305,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
   const submitButton = document.createElement('button');
   const cancelButton = document.createElement('button');
 
+  //form
   form.classList.add('checklist-form');
   form.setAttribute('action', '');
   form.setAttribute('method', '');
@@ -314,6 +315,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
   legend.textContent = 'Add Task:';
   form.appendChild(legend);
 
+  //task
   taskContainer.classList.add('task-container');
   form.appendChild(taskContainer);
 
@@ -328,6 +330,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
     checkListItemText.setAttribute('required', '');
     taskContainer.appendChild(checkListItemText);
 
+  //checked
   checkBoxContainer.classList.add('checkbox-container');
   form.appendChild(checkBoxContainer);
 
@@ -342,6 +345,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
     checkBox.setAttribute('required', '');
     checkBoxContainer.appendChild(checkBox);
 
+  //submit
   submitButton.classList.add('submit-task');
   submitButton.textContent = "Submit";
   form.appendChild(submitButton);
@@ -352,6 +356,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
     form.remove();
   })
 
+  //cancel
   cancelButton.classList.add('cancel-task');
   cancelButton.textContent = "Cancel";
   form.appendChild(cancelButton);
@@ -360,12 +365,149 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
   })
 }
 
+const bringUpProjectPopup = () => {
+  const projectContainer = document.querySelector('.project-container');
+  const form = document.createElement('form');
+  const legend = document.createElement('legend');
+  const titleContainer = document.createElement('div');
+  const titleText = document.createElement('input');
+  const titleLabel = document.createElement('label');
+  const descriptionContainer = document.createElement('div');
+  const descriptionText = document.createElement('input');
+  const descriptionLabel = document.createElement('label');
+  const dueDateContainer = document.createElement('div');
+  const dueDateText = document.createElement('input');
+  const dueDateLabel = document.createElement('label');
+  const priorityContainer = document.createElement('div');
+  const priorityText = document.createElement('select');
+  const priorityLabel = document.createElement('label');
+  const option1 = document.createElement('option');
+  const option2 = document.createElement('option');
+  const option3 = document.createElement('option');
+  const submitButton = document.createElement('button');
+  const cancelButton = document.createElement('button');
+
+  form.classList.add('project-form');
+  form.setAttribute('action', '');
+  form.setAttribute('method', '');
+  projectContainer.appendChild(form);
+
+  legend.classList.add('legend');
+  legend.textContent = 'Add Project:';
+  form.appendChild(legend);
+
+  //title
+  titleContainer.classList.add('title-container');
+  form.appendChild(titleContainer);
+
+    titleLabel.setAttribute('for', 'title');
+    titleLabel.textContent = "Title:"
+    titleContainer.appendChild(titleLabel);
+
+    titleText.setAttribute('type', 'text');
+    titleText.setAttribute('name', 'title');
+    titleText.setAttribute('id', 'title');
+    titleText.setAttribute('title', 'Enter title here');
+    titleText.setAttribute('required', '');
+    titleContainer.appendChild(titleText);
+
+  //description
+  descriptionContainer.classList.add('description-container');
+  form.appendChild(descriptionContainer);
+
+    descriptionLabel.setAttribute('for', 'description');
+    descriptionLabel.textContent = "Description:"
+    descriptionContainer.appendChild(descriptionLabel);
+
+    descriptionText.setAttribute('type', 'text');
+    descriptionText.setAttribute('name', 'description');
+    descriptionText.setAttribute('id', 'description');
+    descriptionText.setAttribute('title', 'Enter project description here');
+    descriptionText.setAttribute('required', '');
+    descriptionContainer.appendChild(descriptionText);
+
+  //due date
+  dueDateContainer.classList.add('duedate-container');
+  form.appendChild(dueDateContainer);
+
+    dueDateLabel.setAttribute('for', 'date');
+    dueDateLabel.textContent = "Due date:"
+    dueDateContainer.appendChild(dueDateLabel);
+
+    dueDateText.setAttribute('type', 'date');
+    dueDateText.setAttribute('name', 'date');
+    dueDateText.setAttribute('id', 'date');
+    dueDateText.setAttribute('title', 'Enter due date');
+    dueDateText.setAttribute('required', '');
+    dueDateContainer.appendChild(dueDateText);
+
+    //priority
+    priorityContainer.classList.add('priority-container');
+    form.appendChild(priorityContainer);
+  
+      priorityLabel.setAttribute('for', 'priority');
+      priorityLabel.textContent = "Project priority:"
+      priorityContainer.appendChild(priorityLabel);
+  
+      priorityText.setAttribute('name', 'priority');
+      priorityText.setAttribute('id', 'priority');
+      priorityText.setAttribute('title', 'Select priority');
+      priorityText.setAttribute('required', '');
+      priorityContainer.appendChild(priorityText);
+
+      //options
+      option1.value = 'Low';
+      option1.textContent = 'Low';
+      priorityText.appendChild(option1);
+
+      option2.value = 'Medium';
+      option2.textContent = 'Medium';
+      priorityText.appendChild(option2);
+
+      option3.value = 'High';
+      option3.textContent = 'High';
+      priorityText.appendChild(option3);
+
+
+  //submit
+  submitButton.classList.add('submit-project');
+  submitButton.textContent = "Submit";
+  form.appendChild(submitButton);
+  submitButton.addEventListener('click', () => {
+    const project = projectFactory(titleText.value, descriptionText.value, dueDateText.value, priorityText.value);
+    toDoList.push(project);
+    generateSidebarContent();
+    form.remove();
+  })
+
+  //cancel
+  cancelButton.classList.add('cancel-project');
+  cancelButton.textContent = "Cancel";
+  form.appendChild(cancelButton);
+  cancelButton.addEventListener('click', () => {
+    form.remove();
+  })
+
+}
+
 //factory for creating checklist item
 const checkListItemFactory = (task, done) => {
   let checked;
-  (done) ? checked = true : checked = false;
+  (done.checked) ? checked = true : checked = false;
   return {task, checked};
+}
+
+//factory for project
+const projectFactory = (title, description, dueDate, priority) => {
+  let checkList = [];
+  dueDate = format(parseISO(dueDate), 'MMM dd, yyyy');
+  return {title, description, checkList, dueDate, priority};
 }
 
 sideBar();
 mainArea();
+//event listener for add project button
+const addProject = document.querySelector('.add-project');
+addProject.addEventListener('click', () => {
+  bringUpProjectPopup();
+})
