@@ -1,5 +1,4 @@
 //need to:
-//prevent multiple forms from stacking
 
 import './style.css';
 import {format, parseISO} from 'date-fns';
@@ -15,11 +14,15 @@ const toDoList = [
       },
       {
         task: "Define page style and structure",
-        checked: false,
+        checked: true,
+      },
+      {
+        task: "...",
+        checked: false
       }
     ],
-    dueDate: "12/10/2022",
-    priority: "High",
+    dueDate: "Dec 12, 2022",
+    priority: "Medium",
   },
   {
     title: "Work Out",
@@ -169,7 +172,7 @@ const mainAreaContent = (dataIndex) => {
 
   const addItem = document.createElement('button');
   addItem.classList.add('add-item');
-  addItem.textContent = "Add item to Checklist";
+  addItem.textContent = "Add item";
   checkList.appendChild(addItem);
   addItem.addEventListener('click', () => {
     removeForms();
@@ -379,7 +382,7 @@ const bringUpProjectPopup = () => {
   const titleText = document.createElement('input');
   const titleLabel = document.createElement('label');
   const descriptionContainer = document.createElement('div');
-  const descriptionText = document.createElement('input');
+  const descriptionText = document.createElement('textarea');
   const descriptionLabel = document.createElement('label');
   const dueDateContainer = document.createElement('div');
   const dueDateText = document.createElement('input');
@@ -403,7 +406,7 @@ const bringUpProjectPopup = () => {
   form.appendChild(legend);
 
   //title
-  titleContainer.classList.add('title-container');
+  titleContainer.classList.add('project-title-container');
   form.appendChild(titleContainer);
 
     titleLabel.setAttribute('for', 'title');
@@ -425,11 +428,11 @@ const bringUpProjectPopup = () => {
     descriptionLabel.textContent = "Description:"
     descriptionContainer.appendChild(descriptionLabel);
 
-    descriptionText.setAttribute('type', 'text');
     descriptionText.setAttribute('name', 'description');
     descriptionText.setAttribute('id', 'description');
     descriptionText.setAttribute('title', 'Enter project description here');
     descriptionText.setAttribute('required', '');
+    descriptionText.setAttribute('rows', '4');
     descriptionContainer.appendChild(descriptionText);
 
   //due date
@@ -447,32 +450,32 @@ const bringUpProjectPopup = () => {
     dueDateText.setAttribute('required', '');
     dueDateContainer.appendChild(dueDateText);
 
-    //priority
-    priorityContainer.classList.add('priority-container');
-    form.appendChild(priorityContainer);
-  
-      priorityLabel.setAttribute('for', 'priority');
-      priorityLabel.textContent = "Project priority:"
-      priorityContainer.appendChild(priorityLabel);
-  
-      priorityText.setAttribute('name', 'priority');
-      priorityText.setAttribute('id', 'priority');
-      priorityText.setAttribute('title', 'Select priority');
-      priorityText.setAttribute('required', '');
-      priorityContainer.appendChild(priorityText);
+  //priority
+  priorityContainer.classList.add('priority-container');
+  form.appendChild(priorityContainer);
 
-      //options
-      option1.value = 'Low';
-      option1.textContent = 'Low';
-      priorityText.appendChild(option1);
+    priorityLabel.setAttribute('for', 'priority');
+    priorityLabel.textContent = "Project priority:"
+    priorityContainer.appendChild(priorityLabel);
 
-      option2.value = 'Medium';
-      option2.textContent = 'Medium';
-      priorityText.appendChild(option2);
+    priorityText.setAttribute('name', 'priority');
+    priorityText.setAttribute('id', 'priority');
+    priorityText.setAttribute('title', 'Select priority');
+    priorityText.setAttribute('required', '');
+    priorityContainer.appendChild(priorityText);
 
-      option3.value = 'High';
-      option3.textContent = 'High';
-      priorityText.appendChild(option3);
+    //options
+    option1.value = 'Low';
+    option1.textContent = 'Low';
+    priorityText.appendChild(option1);
+
+    option2.value = 'Medium';
+    option2.textContent = 'Medium';
+    priorityText.appendChild(option2);
+
+    option3.value = 'High';
+    option3.textContent = 'High';
+    priorityText.appendChild(option3);
 
 
   //submit
