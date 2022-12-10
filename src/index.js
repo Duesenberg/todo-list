@@ -3,7 +3,7 @@
 import './style.css';
 import {format, parseISO} from 'date-fns';
 
-const toDoList = [
+let toDoList = [
   {
     title: "Create a Project",
     description: "Go ahead and create a project :)",
@@ -37,6 +37,24 @@ const toDoList = [
     priority: "Low",
   },  
 ]
+
+//event listener for add project button
+const addProject = document.querySelector('.add-project');
+addProject.addEventListener('click', () => {
+  removeForms();
+  bringUpProjectPopup();
+})
+//load local storage
+const loadLocalStorage = () => {
+  const loaded = window.localStorage.getItem("toDoListStorage");
+  toDoList = JSON.parse(loaded);
+}
+const loadStorageButton = document.querySelector('.load-storage');
+loadStorageButton.addEventListener('click', () => {
+  loadLocalStorage();
+  generateSidebarContent();
+  console.log(toDoList)
+})
 
 //create sidevar div where projects will be listed
 const sideBar = () => {
@@ -177,7 +195,7 @@ const mainAreaContent = (dataIndex) => {
   unorderedList.classList.add('all-items')
   checkList.appendChild(unorderedList);
   for (let i = 0; i < toDoList[dataIndex].checkList.length; i++) {
-    const listItem = document.createElement('div');
+    const listItem = document.createElement('li');
     listItem.classList.add('list-item');
     listItem.setAttribute('data-itemindex', i);
     unorderedList.appendChild(listItem);
@@ -578,9 +596,4 @@ const removeForms = () => {
 
 sideBar();
 mainArea();
-//event listener for add project button
-const addProject = document.querySelector('.add-project');
-addProject.addEventListener('click', () => {
-  removeForms();
-  bringUpProjectPopup();
-})
+

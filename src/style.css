@@ -37,7 +37,9 @@ body {
   justify-content: space-between;
 }
 
-.header .title, .header .add-project {
+.header .title, 
+.header .add-project,
+.header .load-storage {
   border: none;
   background-color: #fafafa;
   border-radius: 50px;
@@ -86,6 +88,22 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   filter: contrast(0.4);
+}
+
+.load-storage .text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #525252;
+}
+
+.load-storage:hover {
+  scale: 1.025;
+  transition: 200ms;
+}
+
+.load-storage:active {
+  scale: 1;
+  transition: 0ms;
 }
 
 /* javascript generated content from here */
@@ -139,6 +157,7 @@ body {
   display: grid;
   background-color: #fafafa;
   grid-template-columns: 1fr 1.5fr;
+  column-gap: 20px;
   border-radius: 50px;
   box-shadow: 0px 6px 10px -3px rgba(0,0,0);
 }
@@ -150,6 +169,7 @@ body {
   display: flex;
   padding: 40px 40px 10px 10px;
   align-items: center;
+  align-self: start;
 }
 
 .title-container .title {
@@ -209,12 +229,14 @@ body {
 
 .checklist .all-items {
   margin: 25px 0px;
+  list-style-type: circle;
 }
 
 .list-item {
   display: flex;
   gap: 5px;
   justify-content: start;
+  padding-bottom: 15px;
 }
 
 .project-container .checklist .text {
@@ -224,6 +246,8 @@ body {
   background-color: #fafafa;
   padding: 0;
   margin: 0;
+  flex: 1;
+  text-align: justify;
 }
 
 .project-container .checklist .text:hover {
@@ -269,6 +293,7 @@ body {
   padding: 10px 40px 40px 10px;
   align-items: center;
   gap: 10px;
+  align-self: end;
 }
 
 .info .due-date1 {
