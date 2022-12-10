@@ -5,46 +5,37 @@ import {format, parseISO} from 'date-fns';
 
 const toDoList = [
   {
-    title: "To-Do List",
-    description: "Create a functioning To-Do List app that works in the browser. Better get busy.",
+    title: "Create a Project",
+    description: "Go ahead and create a project :)",
     checkList: [
       {
-        task: "Create basic page setup",
-        checked: true,
-      },
-      {
-        task: "Define page style and structure",
-        checked: true,
-      },
-      {
-        task: "...",
-        checked: false
-      }
-    ],
-    dueDate: "Dec 12, 2022",
-    priority: "Medium",
-  },
-  {
-    title: "Work Out",
-    description: "Go to the gym and work out.",
-    checkList: [
-      {
-        task: "Go to gym",
+        task: 'Click on "Add Project"',
         checked: false,
       },
       {
-        task: "Work out",
+        task: "Add a title, description, due date and select project priority",
         checked: false,
       },
       {
-        task: "Go back",
+        task: 'Click "Submit"',
+        checked: false,
+      },
+      {
+        task: 'Add your tasks by clicking on the "Add task" button',
+        checked: false,
+      },
+      {
+        task: 'Click on the task if it is done, or on the "x" next to it if you want to remove it',
+        checked: false,
+      },
+      {
+        task: 'Change your due date, priority, or remove the whole project from the buttons on the bottom of the project window',
         checked: false,
       },
     ],
-    dueDate: "12/03/2022",
-    priority: "Medium",
-  },
-  
+    dueDate: "Dec 12, 2022",
+    priority: "Low",
+  },  
 ]
 
 //create sidevar div where projects will be listed
@@ -154,6 +145,7 @@ const mainAreaContent = (dataIndex) => {
       changePriority(priority2);
       generateMainContent(dataIndex);
       generateSidebarContent();
+      window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
     })
     info.appendChild(priority2);
 
@@ -163,6 +155,7 @@ const mainAreaContent = (dataIndex) => {
     info.appendChild(removeProject);
     removeProject.addEventListener('click', () => {
       projectRemove(projectContainer, dataIndex);
+      window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
     })
 
   //checklist
@@ -172,7 +165,7 @@ const mainAreaContent = (dataIndex) => {
 
   const addItem = document.createElement('button');
   addItem.classList.add('add-item');
-  addItem.textContent = "Add item";
+  addItem.textContent = "Add task";
   checkList.appendChild(addItem);
   addItem.addEventListener('click', () => {
     removeForms();
@@ -198,6 +191,7 @@ const mainAreaContent = (dataIndex) => {
     listItem.appendChild(listItemText);
     listItemText.addEventListener('click', () => {
       makeChecked(listItem, dataIndex);
+      window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
       generateMainContent(dataIndex);
     })
 
@@ -205,6 +199,7 @@ const mainAreaContent = (dataIndex) => {
     removeButton.classList.add('remove-item');
     removeButton.addEventListener('click', () => {
       removeChecklistItem(listItem, dataIndex);
+      window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
       generateMainContent(dataIndex);
     })
     listItem.appendChild(removeButton);
@@ -360,6 +355,7 @@ const bringUpChecklistPopUp = (dataLocation, dataIndex) => {
   submitButton.addEventListener('click', () => {
     const checkListItem = checkListItemFactory(checkListItemText.value, checkBox);
     dataLocation.push(checkListItem);
+    window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
     generateMainContent(dataIndex);
     form.remove();
   })
@@ -485,6 +481,7 @@ const bringUpProjectPopup = () => {
   submitButton.addEventListener('click', () => {
     const project = projectFactory(titleText.value, descriptionText.value, dueDateText.value, priorityText.value);
     toDoList.push(project);
+    window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
     generateSidebarContent();
     form.remove();
   })
@@ -541,6 +538,7 @@ const bringUpDatePopup = (dataIndex) => {
   submitButton.addEventListener('click', () => {
     toDoList[dataIndex].dueDate = format(parseISO(dueDateText.value), 'MMM dd, yyyy');    ;
     generateMainContent(dataIndex);
+    window.localStorage.setItem("toDoListStorage", JSON.stringify(toDoList));
     form.remove();
   })
 
